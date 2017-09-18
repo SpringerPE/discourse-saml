@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<samlp:Response xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Destination="http://forums.republicwireless.com/auth/saml/callback" ID="_c7412c19-06bf-48ac-b294-fc358bf5daa9" InResponseTo="_16b627b6-ece0-4fe4-9ed2-e8c37fee51d7" IssueInstant="2017-03-29T15:58:47Z" Version="2.0">
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+      <ds:Reference URI="#_c7412c19-06bf-48ac-b294-fc358bf5daa9">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+        <ds:DigestValue>bnLdpZ6kUkL7fvKG+zZqf2jtkqk=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>gjdqCZ+0EImzPm1j4bbFQFQG+Odae7EPXzMXYkgSjk6AO8Pt7q1kD5zZVEbd+88HST5IywGAf2nJIyJQmx7vkyCpertRzSoc6iVDoOHrqL2vddOd+k7V/of8ydIthAVqEeAn15yPb9CiaWEk7fZWCaAI0ave6sRXvbeSmSAx+41usMX6Y0vZM3YPGfrg/RHqojgzuU6rFeJpvYEo5IMt0cydKugoaCwrM0/EqX3k0/VBiJ9v9MmEFEiBG028OjkouJks4e3WPAJzTSElCY9/iW43c7HTRU3kHPQpcnfvIXbEuBacwZWFkK84PKX2Ye71Nc8cev1Iqbk0kEaTsVWsLg==</ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:X509Data>
+        <ds:X509Certificate>MIIEJzCCAw+gAwIBAgIJAPajJJ3lG8ejMA0GCSqGSIb3DQEBBQUAMIGpMQswCQYDVQQGEwJVUzEXMBUGA1UECAwOTm9ydGggQ2Fyb2xpbmExEDAOBgNVBAcMB1JhbGVpZ2gxEjAQBgNVBAoMCUJhbmR3aWR0aDEaMBgGA1UECwwRUmVwdWJsaWMgV2lyZWxlc3MxFTATBgNVBAMMDHAxOWF1dGhfc2FtbDEoMCYGCSqGSIb3DQEJARYZaW5mb0ByZXB1YmxpY3dpcmVsZXNzLmNvbTAeFw0xNTAyMjUyMDU0NTlaFw0xNjAyMjUyMDU0NTlaMIGpMQswCQYDVQQGEwJVUzEXMBUGA1UECAwOTm9ydGggQ2Fyb2xpbmExEDAOBgNVBAcMB1JhbGVpZ2gxEjAQBgNVBAoMCUJhbmR3aWR0aDEaMBgGA1UECwwRUmVwdWJsaWMgV2lyZWxlc3MxFTATBgNVBAMMDHAxOWF1dGhfc2FtbDEoMCYGCSqGSIb3DQEJARYZaW5mb0ByZXB1YmxpY3dpcmVsZXNzLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKrnYggQ0YXWrDzzuFPcfB3hJnM3Y25STqe6J60uo+fY4SkZikhKh4q2FTaf16jp+HZ7Shdb/+PAqRdiDjNI93bxT4ic+vHHWNuqJv5jxJ6pK4XnGK94GA0NiM927+fcqXuahI+9cnJVT+bnkr4j54oliYcMJcb8wb9OrFfmukbRTZeLOm2R0YMsSO3n7k5Qcgb2XF9W0MuXauLMj9vMWgzRoNUVTMyU5fpvWqqMcemmvAiMNM+UoIDGSda1VSTt/oAX8yugrhRsMK4tEufGIDhT8psUyDAwF8AsZz36Pj5rypZMxpePyE9AHHoNcmPSPcXm+l2ef+C5/q0yp3WFr6kCAwEAAaNQME4wHQYDVR0OBBYEFFbkHCFQ9BGEW0rEFZ4SzZan6Pz0MB8GA1UdIwQYMBaAFFbkHCFQ9BGEW0rEFZ4SzZan6Pz0MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAHxFlvOWLkuewACND66hYP4iU1t2Vb6ZF/j9hZaYcad28QZTpI4l7Im0iXKBPKMaQVFH9K++7YpsKCgVxYaTgbjRnT5dqNTDpjqO2PkMqSz5F1Qmn4Fru5yGSmyeyEGbSZdQtXBomMmpsgztPD4gm5L0KYAw0mozvXjp034anjiZ6owGMJFWg/NC2+4KqzWXt77HRdreS7fAjNp5v0xCTvKTxCIqipNxReujkX4B8zBiBFeOGqKQpPG57ohsucVqn44ZOKXA//xcKMxZkKbz17H4NjYNFrObtpDQwl2hOiLnk/NRitTSMCx5jEoBdwfO48VAIp/B2xpIGtIpfqP9x1Y=</ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <saml:Issuer>https://auth.republicdev.info/saml2/metadata</saml:Issuer>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+  </samlp:Status>
+  <saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_ed45aca8-1798-4c8c-9bbb-a6c5d7d142c6" IssueInstant="2017-03-29T15:58:47Z" Version="2.0">
+    <saml:Issuer>https://auth.republicdev.info/saml2/metadata</saml:Issuer>
+    <saml:Subject xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+      <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">c6d77a6d-35c8-463f-b082-70b12730a332</saml:NameID>
+      <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <saml:SubjectConfirmationData InResponseTo="_16b627b6-ece0-4fe4-9ed2-e8c37fee51d7" NotOnOrAfter="2017-03-29T16:58:47Z" Recipient="http://forums.republicwireless.com/auth/saml/callback"/>
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:AuthnStatement xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" AuthnInstant="2017-03-29T15:58:47Z" SessionIndex="session_1">
+      <saml:AuthnContext>
+        <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+      </saml:AuthnContext>
+    </saml:AuthnStatement>
+    <saml:AttributeStatement>
+      <saml:Attribute Name="email">
+        <saml:AttributeValue>acook+nexus@republicwireless.com</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute Name="givenName">
+        <saml:AttributeValue>Adam</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute Name="sn">
+        <saml:AttributeValue>Cook</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute Name="memberOf">
+        <saml:AttributeValue>Community Contributor</saml:AttributeValue>
+        <saml:AttributeValue>republic Members</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute Name="username">
+        <saml:AttributeValue>wolfpack9377_2</saml:AttributeValue>
+      </saml:Attribute>
+    </saml:AttributeStatement>
+    <saml:Conditions NotBefore="2017-03-29T15:58:47Z" NotOnOrAfter="2017-03-29T16:58:47Z">
+      <saml:AudienceRestriction>
+        <saml:Audience>http://forums.republicwireless.com</saml:Audience>
+      </saml:AudienceRestriction>
+    </saml:Conditions>
+  </saml:Assertion>
+</samlp:Response>
