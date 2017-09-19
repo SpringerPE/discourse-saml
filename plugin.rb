@@ -19,6 +19,7 @@ class SamlAuthenticator < ::Auth::OAuth2Authenticator
                       :issuer => Discourse.base_url,
                       :idp_sso_target_url => GlobalSetting.try(:saml_target_url),
                       :idp_cert => GlobalSetting.try(:saml_cert),
+                      :attribute_statements => { :nickname => ['screenName'] },
                       :assertion_consumer_service_url => Discourse.base_url + "/auth/saml/callback",
                       :custom_url => (GlobalSetting.try(:saml_request_method) == 'post') ? "/discourse_saml" : nil,
                       :certificate => GlobalSetting.try(:saml_sp_certificate),
@@ -34,33 +35,67 @@ class SamlAuthenticator < ::Auth::OAuth2Authenticator
       ::PluginStore.set("saml", "saml_last_auth_extra", auth.extra.inspect)
     end
 
-    info = auth.extra[:raw_info]
     uid = auth[:uid]
+    result.name = auth[:info].name || uid
+    result.username = uid
+    if auth.extra.present? && auth.extra[:raw_info].present?
+      result.email = auth.extra[:raw_info].attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'].first
+      result.username = result.email.gsub(/@.+/, "")
+      result.name = auth.extra[:raw_info].attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'].first + " " + auth.extra[:raw_info].attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'].first
+    end
 
-    result.username = result.email.gsub(/@.+/, "")
-    result.name = info.attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'].first + " " + info.attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'].first
-    result.email = info.attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'].first
     result.email_valid = true
-    result.skip_email_validation = true
 
-    saml_user_info = ::PluginStore.get("saml", "saml_user_#{uid}")
-    if saml_user_info
-      result.user = User.where(id: saml_user_info[:user_id]).first
+    if result.respond_to?(:skip_email_validation) && GlobalSetting.try(:saml_skip_email_validation)
+      result.skip_email_validation = true
     end
 
-    result.user ||= User.find_by_email(result.email)
-
-    if saml_user_info.nil? && result.user
-      ::PluginStore.set("saml", "saml_user_#{uid}", {user_id: result.user.id })
+    current_info = ::PluginStore.get("saml", "saml_user_#{uid}")
+    if current_info
+      result.user = User.where(id: current_info[:user_id]).first
     end
+
+    result.user ||= User.where(email: Email.downcase(result.email)).first
+
+    if GlobalSetting.try(:saml_clear_username) && result.user.blank?
+      result.username = ''
+    end
+
+    if GlobalSetting.try(:saml_omit_username) && result.user.blank?
+      result.omit_username = true
+    end
+
+    sync_groups(result.user, auth) unless result.user.blank?
 
     result.extra_data = { saml_user_id: uid }
-
     result
   end
 
   def after_create_account(user, auth)
     ::PluginStore.set("saml", "saml_user_#{auth[:extra_data][:saml_user_id]}", {user_id: user.id })
+
+    sync_groups(user, auth)
+  end
+
+  def sync_groups(user, auth)
+
+    return unless GlobalSetting.try(:saml_sync_groups) && GlobalSetting.try(:saml_sync_groups_list) && auth.extra.present? && auth.extra[:raw_info].present?
+
+    total_group_list = GlobalSetting.try(:saml_sync_groups_list).split('|')
+
+    user_group_list = auth.extra[:raw_info].attributes['memberOf']
+
+    groups_to_add = Group.where(name: total_group_list & user_group_list)
+
+    groups_to_add.each do |group|
+      group.add user
+    end
+
+    groups_to_remove = Group.where(name: total_group_list - user_group_list)
+
+    groups_to_remove.each do |group|
+      group.remove user
+    end
   end
 
 end
@@ -90,19 +125,20 @@ if request_method == 'post'
           settings.idp_sso_target_url = GlobalSetting.saml_target_url
           settings.idp_cert ||= GlobalSetting.try(:saml_cert)
         else
-          settings = OneLogin::RubySaml::Settings.new(:idp_sso_target_url => GlobalSetting.saml_target_url,
-                                                      :idp_cert_fingerprint => GlobalSetting.try(:saml_cert_fingerprint),
-                                                      :idp_cert => GlobalSetting.try(:saml_cert))
+          settings = OneLogin::RubySaml::Settings.new(:idp_sso_target_url => GlobalSetting.try(:saml_target_url),
+                                                      :idp_cert => GlobalSetting.try(:saml_cert),
+                                                      :certificate => GlobalSetting.try(:saml_sp_certificate),
+						                                          :private_key => GlobalSetting.try(:saml_sp_private_key))
         end
 
         settings.compress_request = false
         settings.passive = false
         settings.issuer = Discourse.base_url
-        settings.assertion_consumer_service_url = Discourse.base_url + "/auth/saml/callback"
+        settings.assertion_consumer_service_url = Discourse.base_url + "/auth/saml/callback",
         settings.name_identifier_format = "urn:oasis:names:tc:SAML:2.0:protocol"
 
         saml_params = authn_request.create_params(settings, {})
-        @saml_req = saml_params['SAMLRequest']
+        saml_req = saml_params['SAMLRequest']
 
         render text: <<-HTML_FORM
   <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
