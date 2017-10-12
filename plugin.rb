@@ -183,6 +183,6 @@ auth_provider :title => button_title,
               :message => "Authorizing with #{title} (make sure pop up blockers are not enabled)",
               :frame_width => 600,
               :frame_height => 380,
-              :background_color => '#003366',
+              :background_color => '#ff0000',
               :full_screen_login => GlobalSetting.try(:saml_full_screen_login) || false,
-              :custom_url => request_method == 'post' ? "/discourse_saml" : nil
+              :custom_url => "https://id.springernature.com/adfs/ls/idpinitiatedsignon.aspx?logintoRP=#{Discourse.base_url}"
